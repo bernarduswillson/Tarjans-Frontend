@@ -26,6 +26,7 @@
     "next": "^12.1.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-graph-vis": "^1.0.7",
     "react-vis-network-graph": "^3.0.1",
     "vis-data": "^7.1.6",
     "vis-network": "^9.1.6"
