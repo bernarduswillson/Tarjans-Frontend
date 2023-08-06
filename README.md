@@ -27,10 +27,10 @@ The types of edges that exist in a graph are as follows:
 1. Clone FE and BE repo using the command below: 
 
 ```
-https://github.com/bernarduswillson/Tarjans-Frontend
+git clone https://github.com/bernarduswillson/Tarjans-Frontend.git
 ```
 ```
-https://github.com/bernarduswillson/Tarjans-Backend
+git clone https://github.com/bernarduswillson/Tarjans-Backend.git
 ```
 <br>
 2. Install dependencies :
