@@ -24,7 +24,6 @@ const App: React.FC = () => {
           const data = await response.json()
           setResult(JSON.stringify(data, null, 2))
 
-          // Extract nodes and edges from the "graph" array
           const { graph } = data
           const nodes = []
           const edges = []
@@ -38,7 +37,6 @@ const App: React.FC = () => {
             }
           }
 
-          // Extract nodes and edges from the "bridge" array
           const { bridge } = data
           const bridgeNodes = []
           const bridgeEdges = []
@@ -52,7 +50,6 @@ const App: React.FC = () => {
             }
           }
 
-          // Extract nodes and edges from the "scc" array
           const { scc } = data
           const sccNodes = []
           const sccEdges = []
@@ -66,26 +63,21 @@ const App: React.FC = () => {
             }
           }
 
-          // Gather all unique nodes from the "scc" result
           const sccNodesSet = new Set(scc.map((edge) => edge.split('')))
           const sccNodesUnique = Array.from(sccNodesSet).flat()
 
-          // Find the nodes in "scc" that are not present in the "graph" result
           const nodesWithoutEdges = sccNodesUnique.filter((node) => !nodes.includes(node))
 
-          // Add nodes without edges to the graph data
           const allNodesData = nodes.map((node) => ({ id: node, label: node }))
           const nodesWithoutEdgesData = nodesWithoutEdges.map((node) => ({
             id: node,
             label: node
           }))
 
-          // Set the graph data including nodes without edges
           setGraphData({ nodes: allNodesData, edges })
           setGraphBridge({ nodes: bridgeNodes.map((node) => ({ id: node, label: node })), edges: bridgeEdges })
           setGraphScc({ nodes: allNodesData.concat(nodesWithoutEdgesData), edges: sccEdges })
 
-          // Set the execution time
           setExeTime(data.time)
         }
       } catch (error) {
@@ -120,40 +112,39 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-auto bg-gray-100">
-      <div className="bg-white p-8 rounded shadow">
-        <h1 className="text-2xl font-bold mb-4">Graph Results</h1>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded shadow w-full h-full">
+        <div className="text-2xl font-bold mb-4">Graph Results</div>
         <input type="file" accept=".txt" onChange={handleFileChange} />
-        {/* <pre>{result}</pre> */}
-        <div style={{ display: 'flex' }}>
-          <div style={{ flex: 1 }}>
-            {graphData.nodes.length > 0 && (
-              <div>
-                <h2>Graph</h2>
+        <div style={{ display: 'flex' }} className='h-[80%]'>
+          <div style={{ flex: 1 }} className='border-2'>
+            <div>
+              <div className='font-bold text-center'>Graph</div>
+              {graphData.nodes.length > 0 && (
                 <Graph graph={graphData} options={options} events={events} />
-              </div>
-            )}
+              )}
+            </div>
           </div>
-          <div style={{ flex: 1 }}>
-            {graphBridge.nodes.length > 0 && (
-              <div>
-                <h2>Bridges</h2>
-                <Graph graph={graphBridge} options={options} events={events} />
-              </div>
-            )}
-          </div>
-          <div style={{ flex: 1 }}>
-            {graphScc.nodes.length > 0 && (
-              <div>
-                <h2>SCC</h2>
+          <div style={{ flex: 1 }} className='border-2'>
+            <div>
+            <div className='font-bold text-center'>SCC</div>
+              {graphScc.nodes.length > 0 && (
                 <Graph graph={graphScc} options={options} events={events} />
-              </div>
-            )}
+              )}
+            </div>
+          </div>
+          <div style={{ flex: 1 }} className='border-2'>
+            <div>
+              <div className='font-bold text-center'>Bridges</div>
+              {graphBridge.nodes.length > 0 && (
+                <Graph graph={graphBridge} options={options} events={events} />
+              )}
+            </div>
           </div>
         </div>
         <div>
-          <h2>Execution Time</h2>
-          <p>{exeTime} nanoseconds</p>
+          <div>Execution Time:</div>
+          <div className='font-bold'>{exeTime} nanoseconds</div>
         </div>
       </div>
     </div>
